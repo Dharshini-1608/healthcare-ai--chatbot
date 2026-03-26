@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="HealthMate AI - Your smart and friendly healthcare assistant.">
+    <title>HealthMate AI</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Theme Background -->
+    <div class="theme-bg"></div>
+
+    <!-- Auth Container (Login & Signup) -->
+    <main id="auth-container" class="view-active">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="logo">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                    <span>HealthMate AI</span>
+                </div>
+                <p>Your smart and friendly healthcare assistant.</p>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form active-form">
+                <h2>Welcome Back</h2>
+                <div class="input-group">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" id="login-email" placeholder="Email Address" required>
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="login-password" placeholder="Password" required>
+                </div>
+                <div id="login-error" class="error-msg"></div>
+                <button type="submit" class="btn-primary">Login</button>
+                <p class="auth-switch">Don't have an account? <span id="go-to-signup">Sign up here</span></p>
+            </form>
+
+            <!-- Signup Form -->
+            <form id="signup-form" class="auth-form hidden-form">
+                <h2>Create Account</h2>
+                <div class="input-group">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="signup-name" placeholder="Full Name" required>
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" id="signup-email" placeholder="Email Address" required>
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="signup-password" placeholder="Password (min 6 chars)" required minlength="6">
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="signup-confirm" placeholder="Confirm Password" required minlength="6">
+                </div>
+                <div id="signup-error" class="error-msg"></div>
+                <div id="signup-success" class="success-msg"></div>
+                <button type="submit" class="btn-primary">Sign Up</button>
+                <p class="auth-switch">Already have an account? <span id="go-to-login">Log in here</span></p>
+            </form>
+        </div>
+    </main>
+
+    <!-- App Container (Chat Dashboard) -->
+    <main id="app-container" class="view-hidden">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                    <span>HealthMate AI</span>
+                </div>
+                <button id="close-sidebar-btn" class="mobile-only icon-btn"><i class="fa-solid fa-times"></i></button>
+            </div>
+            
+            <div class="sidebar-content">
+                <button id="new-chat-btn" class="btn-outline">
+                    <i class="fa-solid fa-plus"></i> New Chat
+                </button>
+
+                <div class="sidebar-section">
+                    <h3>Chat History</h3>
+                    <ul id="chat-history-list" class="history-list">
+                        <!-- History items populated via JS -->
+                    </ul>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <button id="clear-chat-btn" class="sidebar-action">
+                    <i class="fa-solid fa-trash"></i> Clear Chat
+                </button>
+                <button id="theme-toggle" class="sidebar-action">
+                    <i class="fa-solid fa-moon"></i> <span>Dark Mode</span>
+                </button>
+                <div class="user-profile">
+                    <div class="avatar"><i class="fa-solid fa-user"></i></div>
+                    <span id="user-display-name">User</span>
+                    <button id="logout-btn" class="icon-btn" title="Logout"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <section class="chat-area">
+            <header class="chat-header">
+                <button id="open-sidebar-btn" class="mobile-only icon-btn"><i class="fa-solid fa-bars"></i></button>
+                <div class="chat-title">
+                    <h2>AI Assistant</h2>
+                    <span class="status"><span class="dot"></span> Online</span>
+                </div>
+                <div class="header-actions">
+                    <button id="info-btn" class="icon-btn" title="Information"><i class="fa-solid fa-circle-info"></i></button>
+                </div>
+            </header>
+
+            <div class="disclaimer-banner">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <p>This chatbot provides general health information only. It is not a replacement for professional medical advice, diagnosis, or treatment.</p>
+            </div>
+
+            <div id="chat-box" class="chat-box">
+                <!-- Welcome Message (Initial state) -->
+                <div class="welcome-screen" id="welcome-screen">
+                    <i class="fa-solid fa-stethoscope welcome-icon"></i>
+                    <h1>Hello, <span id="greeting-name">there</span>!</h1>
+                    <p>I am your AI Healthcare Assistant. How can I help you today?</p>
+                    <div class="suggestion-chips">
+                        <button class="chip">Diet Tips</button>
+                        <button class="chip">Symptoms Checker</button>
+                        <button class="chip">Fitness Advice</button>
+                        <button class="chip">Better Sleep</button>
+                    </div>
+                </div>
+                <!-- Chat messages will be injected here -->
+            </div>
+
+            <footer class="chat-input-area">
+                <form id="chat-form">
+                    <button type="button" id="voice-btn" class="icon-btn voice-btn" title="Voice Input"><i class="fa-solid fa-microphone"></i></button>
+                    <div class="input-wrapper">
+                        <input type="text" id="chat-input" placeholder="Type your health-related query here..." autocomplete="off">
+                    </div>
+                    <button type="submit" id="send-btn" class="icon-btn send-btn" title="Send Message" disabled><i class="fa-solid fa-paper-plane"></i></button>
+                </form>
+            </footer>
+        </section>
+    </main>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
